@@ -6,9 +6,13 @@ const createWindow = () => {
     height: 600
   })
 
-  win.loadFile('index.html')
+  win.loadFile('public/index.html')
 }
 
 app.whenReady().then(() => {
-  createWindow()
+  const monitor = require('./clipboard-monitor')
+  clipboardMonitor = new monitor()
+  clipboardMonitor.startMonitoring()
+
+  // createWindow()
 })
