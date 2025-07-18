@@ -14,6 +14,7 @@ class ClipboardAI:
         self.history.append((item, embedding))
         if len(self.history) > self.max_history:
             self.history.pop(0)
+        # print(self.get_history())
     
     def suggest_best_item(self, context_text):
         if not self.history:
@@ -23,27 +24,29 @@ class ClipboardAI:
         texts, embeddings = zip(*self.history)
         similarities = cosine_similarity([context_emb], embeddings)[0]
         best_index = similarities.argmax()
-        return texts[best_index], similarities[best_index]
-
+        best_item = self.history.pop(best_index)
+        # return best_item[0], similarities[best_index]
+        return best_item[0]
+    
     def get_history(self):
         return [item for item, _ in self.history]
 
-clipboard = ClipboardAI()
+# clipboard = ClipboardAI()
 
-test_items = [
-    "123 Queen Street, Toronto",
-    "def hello(): print('Hello World')",
-    "Hey, can you send me the meeting link?",
-    "https://openai.com/research/gpt-4",
-    "Invoice #42839 — Total Due: $1,250",
-    "The capital of France is Paris.",
-    "My email is kevin@example.com",
-    "Remember to buy eggs, milk, and spinach.",
-    "To reset your password, click the link below.",
-    "2025-07-15 at 3:00 PM"
-]
+# test_items = [
+#     "123 Queen Street, Toronto",
+#     "def hello(): print('Hello World')",
+#     "Hey, can you send me the meeting link?",
+#     "https://openai.com/research/gpt-4",
+#     "Invoice #42839 — Total Due: $1,250",
+#     "The capital of France is Paris.",
+#     "My email is kevin@example.com",
+#     "Remember to buy eggs, milk, and spinach.",
+#     "To reset your password, click the link below.",
+#     "2025-07-15 at 3:00 PM"
+# ]
 
-for item in test_items:
-    clipboard.add_clipboard_item(item)
+# for item in test_items:
+#     clipboard.add_clipboard_item(item)
 
-print(clipboard.suggest_best_item("google.com search bar"))
+# print(clipboard.suggest_best_item("google.com search bar"))
